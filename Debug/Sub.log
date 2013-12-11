@@ -1,0 +1,40 @@
+﻿Build started 12/10/2013 4:42:05 PM.
+     1>Project "C:\Users\Janek Lehr\Documents\Sub\Sub.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\Sub.exe" /INCREMENTAL /NOLOGO opengl32.lib glu32.lib glaux.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:".\Debug\Sub.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\Sub.lib" /MACHINE:X86 /SAFESEH .\Debug\Sub.res
+         .\Debug\average.obj
+         .\Debug\Control.obj
+         .\Debug\glrender.obj
+         .\Debug\MainFrm.obj
+         .\Debug\pole.obj
+         .\Debug\qt.obj
+         .\Debug\StdAfx.obj
+         .\Debug\Sub.obj
+         .\Debug\subdiv.obj
+         .\Debug\SubDoc.obj
+         .\Debug\subsurf.obj
+         .\Debug\SubView.obj
+         .\Debug\view.obj
+         .\Debug\Basics.obj
+         .\Debug\Mat.obj
+         .\Debug\Mat2.obj
+         .\Debug\Mat3.obj
+         .\Debug\Mat4.obj
+         .\Debug\Vec.obj
+         .\Debug\Vec2.obj
+         .\Debug\Vec3.obj
+         .\Debug\Vec4.obj
+         .\Debug\array.obj
+         .\Debug\cell.obj
+         .\Debug\edge.obj
+         .\Debug\face.obj
+         .\Debug\list.obj
+         .\Debug\obj.obj
+         .\Debug\vertex.obj
+     1>average.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
+         Sub.vcxproj -> C:\Users\Janek Lehr\Documents\Sub\.\Debug\Sub.exe
+     1>Done Building Project "C:\Users\Janek Lehr\Documents\Sub\Sub.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.00

@@ -1,0 +1,143 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Sub - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Release/Sub.res" /d "NDEBUG" /d "_AFXDLL" "Z:\daniel\ta557\Sub Skeleton\Sub.rc"" 
+Creating temporary file "C:\TEMP\RSP254.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /Ob2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fo"Release/" /Fd"Release/" /FD /c 
+"Z:\daniel\ta557\Sub Skeleton\average.cpp"
+"Z:\daniel\ta557\Sub Skeleton\glrender.cpp"
+"Z:\daniel\ta557\Sub Skeleton\pole.cpp"
+"Z:\daniel\ta557\Sub Skeleton\qt.cpp"
+"Z:\daniel\ta557\Sub Skeleton\subdiv.cpp"
+"Z:\daniel\ta557\Sub Skeleton\subsurf.cpp"
+"Z:\daniel\ta557\Sub Skeleton\view.cpp"
+"Z:\daniel\ta557\Sub Skeleton\svl\Basics.cpp"
+"Z:\daniel\ta557\Sub Skeleton\svl\Mat.cpp"
+"Z:\daniel\ta557\Sub Skeleton\svl\Mat2.cpp"
+"Z:\daniel\ta557\Sub Skeleton\svl\Mat3.cpp"
+"Z:\daniel\ta557\Sub Skeleton\svl\Mat4.cpp"
+"Z:\daniel\ta557\Sub Skeleton\svl\Vec.cpp"
+"Z:\daniel\ta557\Sub Skeleton\svl\Vec2.cpp"
+"Z:\daniel\ta557\Sub Skeleton\svl\Vec3.cpp"
+"Z:\daniel\ta557\Sub Skeleton\svl\Vec4.cpp"
+"Z:\daniel\ta557\Sub Skeleton\cell\array.cpp"
+"Z:\daniel\ta557\Sub Skeleton\cell\cell.cpp"
+"Z:\daniel\ta557\Sub Skeleton\cell\edge.cpp"
+"Z:\daniel\ta557\Sub Skeleton\cell\face.cpp"
+"Z:\daniel\ta557\Sub Skeleton\cell\list.cpp"
+"Z:\daniel\ta557\Sub Skeleton\cell\obj.cpp"
+"Z:\daniel\ta557\Sub Skeleton\cell\vertex.cpp"
+]
+Creating command line "cl.exe @C:\TEMP\RSP254.tmp" 
+Creating temporary file "C:\TEMP\RSP255.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /Ob2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Release/Sub.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"Z:\daniel\ta557\Sub Skeleton\Control.cpp"
+"Z:\daniel\ta557\Sub Skeleton\MainFrm.cpp"
+"Z:\daniel\ta557\Sub Skeleton\Sub.cpp"
+"Z:\daniel\ta557\Sub Skeleton\SubDoc.cpp"
+"Z:\daniel\ta557\Sub Skeleton\SubView.cpp"
+]
+Creating command line "cl.exe @C:\TEMP\RSP255.tmp" 
+Creating temporary file "C:\TEMP\RSP256.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /Ob2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Release/Sub.pch" /Yc"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"Z:\daniel\ta557\Sub Skeleton\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\TEMP\RSP256.tmp" 
+Creating temporary file "C:\TEMP\RSP257.tmp" with contents
+[
+opengl32.lib glu32.lib glaux.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/Sub.pdb" /machine:I386 /out:"Release/Sub.exe" 
+".\Release\average.obj"
+".\Release\Control.obj"
+".\Release\glrender.obj"
+".\Release\MainFrm.obj"
+".\Release\pole.obj"
+".\Release\qt.obj"
+".\Release\StdAfx.obj"
+".\Release\Sub.obj"
+".\Release\subdiv.obj"
+".\Release\SubDoc.obj"
+".\Release\subsurf.obj"
+".\Release\SubView.obj"
+".\Release\view.obj"
+".\Release\Basics.obj"
+".\Release\Mat.obj"
+".\Release\Mat2.obj"
+".\Release\Mat3.obj"
+".\Release\Mat4.obj"
+".\Release\Vec.obj"
+".\Release\Vec2.obj"
+".\Release\Vec3.obj"
+".\Release\Vec4.obj"
+".\Release\array.obj"
+".\Release\cell.obj"
+".\Release\edge.obj"
+".\Release\face.obj"
+".\Release\list.obj"
+".\Release\obj.obj"
+".\Release\vertex.obj"
+".\Release\Sub.res"
+]
+Creating command line "link.exe @C:\TEMP\RSP257.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+average.cpp
+glrender.cpp
+pole.cpp
+Z:\daniel\ta557\Sub Skeleton\svl/Vec.h(81) : warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+Z:\daniel\ta557\Sub Skeleton\svl/Mat.h(96) : warning C4800: 'unsigned int' : forcing value to bool 'true' or 'false' (performance warning)
+qt.cpp
+subdiv.cpp
+subsurf.cpp
+view.cpp
+Basics.cpp
+Mat.cpp
+Z:\daniel\ta557\Sub Skeleton\svl\Vec.h(81) : warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+Z:\daniel\ta557\Sub Skeleton\svl\Mat.h(96) : warning C4800: 'unsigned int' : forcing value to bool 'true' or 'false' (performance warning)
+Mat2.cpp
+Mat3.cpp
+Mat4.cpp
+Vec.cpp
+Z:\daniel\ta557\Sub Skeleton\svl\Vec.h(81) : warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+Z:\daniel\ta557\Sub Skeleton\svl\Vec.cpp(191) : warning C4018: '<=' : signed/unsigned mismatch
+Vec2.cpp
+Vec3.cpp
+Vec4.cpp
+array.cpp
+cell.cpp
+edge.cpp
+face.cpp
+Generating Code...
+Compiling...
+list.cpp
+obj.cpp
+Z:\daniel\ta557\Sub Skeleton\cell\../svl/Vec.h(81) : warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+Z:\daniel\ta557\Sub Skeleton\cell\../svl/Mat.h(96) : warning C4800: 'unsigned int' : forcing value to bool 'true' or 'false' (performance warning)
+vertex.cpp
+Generating Code...
+Compiling...
+Control.cpp
+MainFrm.cpp
+Sub.cpp
+SubDoc.cpp
+SubView.cpp
+Generating Code...
+Linking...
+
+
+
+<h3>Results</h3>
+Sub.exe - 0 error(s), 8 warning(s)
+</pre>
+</body>
+</html>
