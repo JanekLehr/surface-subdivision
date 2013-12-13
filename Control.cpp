@@ -69,7 +69,9 @@ BOOL CControl::OnInitDialog()
 	CDialog::OnInitDialog();
 	
 	m_LevelSlider.SetRange( 0, 5 );
+	m_Substyle.AddString("Looping");
 	m_Substyle.SetCurSel( 0 );
+	
 
 	return TRUE;
 }
@@ -98,10 +100,12 @@ void CControl::OnSelchangeSubstyle()
 		view->GetDocument()->SetAverage( new AvgNOOP() );
 		break;
 	case 1:
-		view->GetDocument()->SetAverage( new AvgAdHoc( false ) );
+		// view->GetDocument()->SetAverage( new AvgAdHoc( false ) );
+		view->GetDocument()->SetAverage(new AvgLooping());
 		break;
 	case 2:
 		view->GetDocument()->SetAverage( new AvgAdHoc( true ) );
+		
 		break;
 	}
 }

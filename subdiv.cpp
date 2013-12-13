@@ -77,50 +77,50 @@ Edge *split(Edge *e) {
 void splitAllEdges(Cell *c) {
     int count = 0;
     {
-	// first, set the splitme bits of all original edges
-	CellFaceIterator cellFaces(c);
-	Face *f;
-	while ((f = cellFaces.next()) != 0) {
-	    // visit each face of cell c
-	    FaceEdgeIterator faceEdges(f);
-	    Edge *edge;
-	    while ((edge = faceEdges.next()) != 0) {
-		// visit each edge of face f
-		// mark as unsplit
-		edge->tag = EUNSPLIT;	// set bit
-	    }
-	}
+		// first, set the splitme bits of all original edges
+		CellFaceIterator cellFaces(c);
+		Face *f;
+		while ((f = cellFaces.next()) != 0) {
+			// visit each face of cell c
+			FaceEdgeIterator faceEdges(f);
+			Edge *edge;
+			while ((edge = faceEdges.next()) != 0) {
+				// visit each edge of face f
+				// mark as unsplit
+				edge->tag = EUNSPLIT;	// set bit
+			}
+		}
     }
     {
-	// go through again, splitting marked edges
-	// need to construct a new iterator, hence the {}'s
-	CellFaceIterator cellFaces(c);
-	Face *f;
+		// go through again, splitting marked edges
+		// need to construct a new iterator, hence the {}'s
+		CellFaceIterator cellFaces(c);
+		Face *f;
 
-	while ((f = cellFaces.next()) != 0) {
-	    // visit each face of cell c
-	    FaceEdgeIterator faceEdges(f);
-	    Edge *edge;
-	    while ((edge = faceEdges.next()) != 0) {
-		// visit each edge of face f
-		// if it is unsplit then split it
-		if (edge->tag==EUNSPLIT) {
-		    Edge *enew = split(edge);
-		    count++;
+		while ((f = cellFaces.next()) != 0) {
+			// visit each face of cell c
+			FaceEdgeIterator faceEdges(f);
+			Edge *edge;
+			while ((edge = faceEdges.next()) != 0) {
+				// visit each edge of face f
+				// if it is unsplit then split it
+				if (edge->tag==EUNSPLIT) {
+					Edge *enew = split(edge);
+					count++;
 
-		    // mark old and new edges and their Syms as split and even
-		    // to avoid recursive splitting and to distinguish them
-		    // from odd edges, to be created later
-		    edge->tag = EEVEN;
-		    edge->Sym()->tag = EEVEN;
-		    enew->tag= EEVEN;
-		    enew->Sym()->tag = EEVEN;
+					// mark old and new edges and their Syms as split and even
+					// to avoid recursive splitting and to distinguish them
+					// from odd edges, to be created later
+					edge->tag = EEVEN;
+					edge->Sym()->tag = EEVEN;
+					enew->tag= EEVEN;
+					enew->Sym()->tag = EEVEN;
 
-		    // mark new vertex as odd
-		    enew->Dest()->tag = VODD;
+					// mark new vertex as odd
+					enew->Dest()->tag = VODD;
+				}
+			}
 		}
-	    }
-	}
     }
     //std::cout << "split " << count << " edges" << std::endl;
 }

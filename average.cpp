@@ -10,6 +10,8 @@
 #include "subdiv.hh"
 #include "average.hh"
 
+#define PI 3.14159265
+
 void AvgNOOP::operator()( Cell *cell )
 {
 	genNormals( cell );
@@ -88,3 +90,57 @@ void AvgAdHoc::average( Vertex *v )
 
 	v->nor /= double(cnt);	
 }
+
+
+void AvgLooping::operator()(Cell *cell)
+{
+	// 1. Generate new positions.  (Put new pos into normal for the time being.)
+	{
+		CellVertexIterator verts(cell);
+		Vertex *v;
+		while ((v = verts.next()) != 0)
+			average(v);
+	}
+	// 2. Copy positions out of nor into pos.
+	{
+	CellVertexIterator verts(cell);
+	Vertex *v;
+	while ((v = verts.next()) != 0)
+		v->pos = v->nor;
+}
+	// 3. Generate new normals.
+	AvgNOOP::genNormals(cell);
+}
+
+void AvgLooping::average(Vertex *v)
+// Generate a vertex position for v by averaging the positions of its neighbors.
+// Put result in normal field.  (Copy into pos later.)
+{
+	Edge *start = v->getEdge();
+	Edge *e = start;
+	 v->nor = Vec3(0, 0, 0);
+	// v->nor = v->pos;
+	int cnt = 0;
+	do
+	{
+		++cnt;
+		v->nor += e->Dest()->pos;
+		e = e->Onext();
+	} while (e != start);
+
+	// add weighted v to the sum
+	v->nor += alpha(++cnt)*v->pos;
+
+	v->nor /= double(cnt) + alpha(cnt);
+}
+
+Double AvgLooping::beta(Int numNeighbors)
+{
+	return  (5.0 / 4.0) - (pow((3 + 2 * cos(2 * PI / numNeighbors)), 2)) / 32;
+}
+
+Double AvgLooping::alpha(Int numNeighbors)
+{
+	return numNeighbors*(1 - beta(numNeighbors)) / beta(numNeighbors);
+}
+

@@ -24,6 +24,8 @@ class Cell;
  * A directed edge from one vertex to another, adjacent to two faces.
  * Based on Dani Lischinski's code from Graphics Gems IV.
  * Original quad-edge data structure due to Guibas and Stolfi (1985).
+ * See:
+ * http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#quadedge
  *
  * ID     the ID number assigned to the edge;
  *        positive
@@ -49,7 +51,7 @@ class Cell;
 //   dprev --*        /*\        *-- dnext
 //         * |       e *         | *
 //       *             *             *
-//     @@               *               @@
+//     @@              *               @@
 //       *             *             *
 //         * |         * sym     | *
 //   lprev --*        \*/        *-- rnext

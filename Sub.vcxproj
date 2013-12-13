@@ -333,9 +333,19 @@
     <Image Include="res\SubDoc.ico" />
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="res\Sub.rc2" />
+    <CustomBuild Include="res\Sub.rc2">
+      <FileType>RES</FileType>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Sub.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

@@ -1,0 +1,554 @@
+
+<!-- saved from url=(0094)http://www.cs.utexas.edu/~fussell/courses/cs384g-fall2010/projects/final/artifacts_f08/rashid/ -->
+<html><script id="tinyhippos-injected">if (window.top.ripple) { window.top.ripple("bootstrap").inject(window, document); }</script><head><meta http-equiv="Content-Type" content="text/html; charset=macintosh">
+<meta name="Title" content="Implementing subdivision surface schemes">
+<meta name="Keywords" content="">
+
+<meta name="ProgId" content="Word.Document">
+<meta name="Generator" content="Microsoft Word 11">
+<meta name="Originator" content="Microsoft Word 11">
+<link rel="File-List" href="http://www.cs.utexas.edu/~fussell/courses/cs384g-fall2010/projects/final/artifacts_f08/rashid/Implementing%20subdivision%20surface%20schemes_files/filelist.xml">
+<title>Implementing subdivision surface schemes</title>
+<style>
+<!--
+ /* Font Definitions */
+@font-face
+	{font-family:"Times New Roman";
+	panose-1:0 2 2 6 3 5 4 5 2 3;}
+@font-face
+	{font-family:"Courier New";
+	panose-1:0 2 7 3 9 2 2 5 2 4;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:0 5 2 1 2 1 8 4 8 7;}
+@font-face
+	{font-family:Cambria;
+	panose-1:0 2 4 5 3 5 4 6 3 2;}
+@font-face
+	{font-family:Calibri;
+	panose-1:0 2 15 5 2 2 2 4 3 2;}
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:Calibri;}
+h1
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:16.0pt;
+	font-family:Cambria;}
+h2
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:14.0pt;
+	font-family:Cambria;
+	font-style:italic;}
+h3
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:13.0pt;
+	font-family:Cambria;}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	line-height:115%;
+	tab-stops:center 3.25in right 6.5in;
+	font-size:11.0pt;
+	font-family:Calibri;}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	line-height:115%;
+	tab-stops:center 3.25in right 6.5in;
+	font-size:11.0pt;
+	font-family:Calibri;}
+p.MsoCaption, li.MsoCaption, div.MsoCaption
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:0in;
+	line-height:115%;
+	font-size:10.0pt;
+	font-family:Calibri;
+	font-weight:bold;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;
+	text-underline:single;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:purple;
+	text-decoration:underline;
+	text-underline:single;}
+table.MsoNormalTable
+	{font-size:10.0pt;
+	font-family:Calibri;}
+table.MsoTableGrid
+	{font-size:10.0pt;
+	font-family:Calibri;}
+p.ListParagraph, li.ListParagraph, div.ListParagraph
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:10.0pt;
+	margin-left:.5in;
+	line-height:115%;
+	font-size:11.0pt;
+	font-family:Calibri;}
+span.HeaderChar
+	{font-size:11.0pt;}
+span.FooterChar
+	{font-size:11.0pt;}
+span.Heading1Char
+	{font-size:16.0pt;
+	font-weight:bold;}
+span.Heading2Char
+	{font-size:14.0pt;
+	font-weight:bold;
+	font-style:italic;}
+span.Heading3Char
+	{font-size:13.0pt;
+	font-weight:bold;}
+ /* Page Definitions */
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.Section1
+	{page:Section1;}
+ /* List Definitions */
+@list l0:level1
+	{text-indent:-.25in;}
+@list l0:level2
+	{text-indent:-.25in;}
+@list l0:level3
+	{text-indent:-9.0pt;}
+@list l1:level1
+	{text-indent:-.25in;}
+@list l2:level1
+	{margin-left:1.25in;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l3:level1
+	{text-indent:-.25in;}
+@list l4:level1
+	{margin-left:1.0in;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l5:level1
+	{margin-left:1.0in;
+	text-indent:-.25in;
+	font-family:Symbol;}
+@list l6:level1
+	{text-indent:-.25in;}
+@list l7:level1
+	{margin-left:1.25in;
+	text-indent:-.25in;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style><style type="text/css"></style>
+</head>
+
+<body bgcolor="white" lang="EN-US" link="blue" vlink="purple" style="tab-interval:.5in">
+
+<div class="Section1">
+
+<h1><span lang="EN-GB">Implementing subdivision surface schemes</span></h1>
+
+<p class="MsoNormal" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">The project aimed at implementing subdivision
+surface schemes to obtain smoother polygonal meshes. The schemes targeted
+included Loop Subdivision, Butterfly Subdivision, Doo-Sabin Subdivision and
+Catmull-Clark Subdivision. The University of Washington [1] base code was used
+to implement the schemes. Although the schemes were not successfully
+implemented, progress was made towards understanding the implementation issues
+and with more time, correct implementations seem possible.</span></p>
+
+<h2><span lang="EN-GB">Project Description:</span></h2>
+
+<p class="ListParagraph" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">In order to produce realistic shapes, one solution
+is to create polygon meshes with higher resolutions. This shifts the load of
+the work to the designers of the meshes who have to create denser meshes.
+Another consequence is once an object has been defined using a mesh, all the
+faces have to be rendered regardless of the abilities of the underlying
+hardware. This means that a high resolution shape would be drawn very slowly on
+a low-end hardware system even though the end user might be willing to
+sacrifice smoothness for performance. A better alternate would be to have an
+adaptive process which would take a low resolution mesh and produce smooth
+surfaces depending on the requirements of the end system. The solution is to
+use subdivision surfaces. Subdivision surfaces have provided the animation
+industry with the tools necessary to produce realistic shapes without
+painstakingly detailed polygonal meshes by creating smooth surfaces from polygonal
+meshes. The impressive results of subdivision surfaces were first demonstrated
+by Pixar in “Geri’s adventure” [4], and have been used extensively in nearly
+all their production since then. The project goals were to implement four of
+the more popular subdivision schemes; a natural extension of the course
+material. The surfaces targeted were mostly convex, initially simple regular
+polygons and then towards more complex irregular polygons. Upon completion, a
+rich user-interface for editing the polygon meshes while observing the final
+surface in real time was to be developed.</span></p>
+
+<h2><span lang="EN-GB">Understanding Subdivision Surfaces:</span></h2>
+
+<p class="ListParagraph" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">Now we briefly look into the schemes prior to
+focusing on the implementation details. For a more detailed overview, SIGGRAPH
+course notes [2][3] are highly recommended. A subdivision is a process by which
+a polygon is subdivided into smaller polygons based on the schemes
+characteristics.  A scheme can be classified as follows:</span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Wingdings">v<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria"><i>Interpolating vs.
+approximating</i></span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify"><span lang="EN-GB" style="font-family:Cambria">A polygon mesh is defined by a set of
+control points. At each level, a subdivision scheme would smooth the shape by
+introducing new vertices. If the scheme moves the original control points it is
+said to be approximating, otherwise it is interpolating since the smoothed
+surface would always pass through the original control points. An approximating
+scheme provides a more flexible and hence smoother scheme however it is
+difficult to modify the control points to get the desired shape since the final
+shape does not pass through the original control points.</span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Wingdings">v<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria"><i>Tri-mesh vs. quad
+mesh</i></span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify"><span lang="EN-GB" style="font-family:Cambria">Some subdivision schemes are defined for
+triangular meshes (where each face has 3 vertices) where as some are defined
+for quad meshes. A quad mesh can be pre-processed to reveal a tri-mesh which
+can be used with a tri-mesh scheme. However the pre-processing step can lead to
+artefacts since splitting of each quad face cannot be generalized.</span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Wingdings">v<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria"><i>Face splitting vs.
+vertex splitting</i></span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify"><span lang="EN-GB" style="font-family:Cambria">A face splitting scheme, also known as a
+primal scheme, would split the face of a polygon into many (usually four) new
+faces by introducing a new vertex in between a face and then splitting the face
+by introducing new edges from original vertices to the new vertex. A vertex splitting
+scheme, also known as a dual scheme, introduces new vertices for each face.</span></p>
+
+<h2><span lang="EN-GB">Understanding the base code</span></h2>
+
+<p class="ListParagraph" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">The base code consists of an MFC SDI application
+developed on the document/view architecture in Microsoft Visual C++ 6.0.
+Besides the classes required for the application framework, the mesh is
+represented in a Cell class. The Cell class uses Edge, Vertex and Face classes
+to associate vertices, edges and faces. One of the key features of the data
+structure is the ability to move about in a controlled manner.</span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria">Given the cell
+structure, a <b>CellVertexIterator</b></span><span lang="EN-GB" style="font-family:
+Cambria"> can be used to iterate over all the vertices by successive calls of
+next function of the iterator instance.</span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria">Given a vertex, a <b>VertexEdgeIterator</b></span><span lang="EN-GB" style="font-family:Cambria"> can be used to iterate over all the
+edges by successive calls to the next function of the iterator instance.</span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria">Given the edge e
+from A to B, the reverse edge can be obtained by <b>e.Sym()</b></span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria">Given an edge, the
+next counter-clockwise edge at that vertex can be found by the <b>Onext</b></span><span lang="EN-GB" style="font-family:Cambria"> function of the edge instance, and
+similarly, the clockwise edge can be obtained by the <b>Oprev</b></span><span lang="EN-GB" style="font-family:Cambria"> function.</span></p>
+
+<p class="ListParagraph" style="margin-left:1.25in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria">The location of a
+vertex can be obtained by the <b>pos</b></span><span lang="EN-GB" style="font-family:Cambria"> member variable of type <b>Vec3</b></span><span lang="EN-GB" style="font-family:Cambria">.</span></p>
+
+<p class="ListParagraph" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">In order to differentiate between graph elements
+(edges, vertices, faces) originally present at a level with those introduced by
+subdivision at that level, the data structure maintains an <b>EVEN-ODD</b></span><span lang="EN-GB" style="font-family:Cambria"> tagging scheme. In this scheme, all the
+original elements are tagged as <b>EVEN</b></span><span lang="EN-GB" style="font-family:Cambria">, and the new elements are tagged <b>ODD</b></span><span lang="EN-GB" style="font-family:Cambria">. At the start of each level of
+subdivision, elements present at that level are tagged as <b>EVEN</b></span><span lang="EN-GB" style="font-family:Cambria">, new elements are added, and these are
+tagged as <b>ODD</b></span><span lang="EN-GB" style="font-family:Cambria">. The
+elements are modified according to the schemes specification and the next level
+is started similarly.</span></p>
+
+<p class="ListParagraph" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">As for the application structure, there is one drop
+down box for controlling the subdivision scheme to be used and a slider to
+control the level of subdivision. To add a subdivision scheme, you just add it
+to the strings in the drop down box’s properties, and modify the function <b>void
+CControl::OnSelchangeSubstyle()</b></span><span lang="EN-GB" style="font-family:
+Cambria"> to handle the new case by creating an instance of the class that
+implements that subdivision scheme.</span></p>
+
+<p class="ListParagraph" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">Each time the subdivision scheme is changed, or the
+level of subdivision is changed, the <b>CSubDoc ::Resubdivide</b></span><span lang="EN-GB" style="font-family:Cambria"> function is invoked. It calls <b>subdivideOnce,
+</b></span><span lang="EN-GB" style="font-family:Cambria">which marks all the
+graph elements as <b>EVEN</b></span><span lang="EN-GB" style="font-family:Cambria">
+and divides the mesh once by introducing vertices in between each edge (splitting
+the edges) and faces. The new vertices are placed halfway between the original
+vertices at that level.</span></p>
+
+<p class="ListParagraph" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">After the new graph elements labelled <b>ODD</b></span><span lang="EN-GB" style="font-family:Cambria"> have been introduced, the parenthesis
+operator of the subdivision class currently selected is invoked to move the
+graph elements according to the scheme.</span></p>
+
+<h2><span lang="EN-GB">Implementation </span></h2>
+
+<p class="ListParagraph" style="margin-left:1.0in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria">The butterfly scheme
+was implemented by creating a class <b>CBSubdiv. </b></span><span lang="EN-GB" style="font-family:Cambria">The class implements the butterfly subdivision by
+iterating through all the <b>ODD</b></span><span lang="EN-GB" style="font-family:
+Cambria"> vertices of the cell. For each <b>ODD</b></span><span lang="EN-GB" style="font-family:Cambria"> vertex <i>oV</i></span><span lang="EN-GB" style="font-family:Cambria">, the two <b>EVEN</b></span><span lang="EN-GB" style="font-family:Cambria"> vertices <i>eV1</i></span><span lang="EN-GB" style="font-family:Cambria"> and <i>eV2</i></span><span lang="EN-GB" style="font-family:Cambria"> used to create this new vertex are determined by
+iterating over all the edges of this vertex.</span></p>
+
+<p class="ListParagraph" style="margin-left:1.0in;text-align:justify"><span lang="EN-GB" style="font-family:Cambria">For each <b>EVEN</b></span><span lang="EN-GB" style="font-family:Cambria"> endpoint <i>eV</i></span><span lang="EN-GB" style="font-family:Cambria">, the butterfly mask is applied and the
+result is used to place the new <b>ODD</b></span><span lang="EN-GB" style="font-family:Cambria"> vertex based. The application of the mask at each
+endpoint requires traversing because the neighbours of an <b>EVEN</b></span><span lang="EN-GB" style="font-family:Cambria"> vertex are not <b>EVEN</b></span><span lang="EN-GB" style="font-family:Cambria"> themselves as the edges have been split
+by addition of <b>ODD</b></span><span lang="EN-GB" style="font-family:Cambria">
+vertices. This is solved by noticing the fact that each <b>ODD</b></span><span lang="EN-GB" style="font-family:Cambria"> vertex has only two immediate <b>EVEN</b></span><span lang="EN-GB" style="font-family:Cambria"> neighbours. So for each edge along <i>eV</i></span><span lang="EN-GB" style="font-family:Cambria"> we determine the other <b>EVEN </b></span><span lang="EN-GB" style="font-family:Cambria">vertex along that edge, and use the its
+weighted position to determine its contribution to <i>oV</i></span><span lang="EN-GB" style="font-family:Cambria"> position.</span></p>
+
+<p class="ListParagraph" style="margin-left:1.0in;text-align:justify;text-indent:
+-.25in"><span lang="EN-GB" style="font-family:Symbol">·<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span lang="EN-GB" style="font-family:Cambria">The loop scheme was
+implemented by creating a class <b>CLoopSubDiv</b></span><span lang="EN-GB" style="font-family:Cambria">.  Since the loop scheme is approximating, we have
+to move both <b>EVEN</b></span><span lang="EN-GB" style="font-family:Cambria">
+and <b>ODD</b></span><span lang="EN-GB" style="font-family:Cambria"> vertices.
+Since the vertices cannot be moved dynamically, we calculate the new positions
+and store them in an auxiliary array by their IDs. Once we have done all the
+computation, we can iterate through all the vertices and update the positions
+of each vertex. The traversals required to implement the loop mask are quite
+similar to those for the butterfly scheme. </span></p>
+
+<h2><span lang="EN-GB">Alternates to implementing!</span></h2>
+
+<p class="ListParagraph" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">Since implementing the subdivision schemes requires
+implementing an elaborate data structure to efficiently represent the mesh as
+well as provide a convenient access to processing it. An alternate is to use
+existing well implementations, such as the CGAL[5] which is a very extensive
+library of geometric tools. The CGAL provides an extensive set of subdivision
+surface methods as well as the required data structures. The methods used to
+implement subdivision surfaces are CatmullClark_subdivision, Loop_subdivision
+and DooSabin_subdivision. For instance, the code to perform Catmull Clark
+Subdivision on a polygon (Doo-Sabin and Loop are commented)specified by the
+user is given below :</span></p>
+
+<table border="1" cellspacing="0" cellpadding="0" style="margin-left:.5in;border-collapse:
+ collapse;border:none">
+ <tbody><tr>
+  <td width="479" valign="top" style="width:6.65in;border:solid black .5pt;
+  padding:0in 5.4pt 0in 5.4pt">
+  <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal;text-autospace:none"><span style="font-size:9.0pt;font-family:&quot;Courier New&quot;;
+  color:black">  <b>Polyhedron P;</b></span></p>
+  <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal;text-autospace:none"><span style="font-size:9.0pt;font-family:&quot;Courier New&quot;;
+  color:black"><b>  cin &gt;&gt; P; // read the .off  </b></span></p>
+  <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal;text-autospace:none"><span style="font-size:9.0pt;font-family:&quot;Courier New&quot;;
+  color:black"><b>  Subdivision_method_3::CatmullClark_subdivision(P,levels);</b></span></p>
+  <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal;text-autospace:none"><span style="font-size:9.0pt;font-family:&quot;Courier New&quot;;
+  color:black"><b>//Subdivision_method_3::DooSabin_subdivision(P, levels);</b></span></p>
+  <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal;text-autospace:none"><span style="font-size:9.0pt;font-family:&quot;Courier New&quot;;
+  color:black"><b>//Subdivision_method_3::Loop_subdivision(P, levels);  </b></span></p>
+  <p class="MsoNormal" style="margin-bottom:0in;margin-bottom:.0001pt;line-height:
+  normal;text-autospace:none"><span style="font-size:9.0pt;font-family:&quot;Courier New&quot;;
+  color:black"><b>  cout &lt;&lt; P; // write the .off</b></span></p>
+  </td>
+ </tr>
+</tbody></table>
+
+<p class="ListParagraph" style="text-align:justify"><span lang="EN-GB" style="font-family:Cambria">&nbsp;</span></p>
+
+<h2><span lang="EN-GB">Recommendations</span></h2>
+
+<p class="MsoNormal" style="text-align:justify;text-indent:.5in"><span lang="EN-GB" style="font-family:Cambria">A considerable effort was spent in
+understanding the Cell data structure. However it would have been much more
+yielding to have spent time on a standardized library such as the CGAL which
+has been thoroughly tested and extensively documented as well. This would have
+saved considerable time and effort as well as provide access to a large
+collection of algorithms already implemented in CGAL.</span></p>
+
+<h2><span lang="EN-GB">References:</span></h2>
+
+<p class="ListParagraph" style="text-indent:-.25in">1.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span lang="EN-GB" style="font-family:Cambria">Assignment P3: Subdivision
+Surfaces, <a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/99/pub/src/p3/p3.html">http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/99/pub/src/p3/p3.html</a></span></p>
+
+<p class="ListParagraph" style="text-indent:-.25in"><span lang="EN-GB" style="font-family:Cambria">2.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span>Subdivision for Modeling and Animation tutorial, <a href="http://en.wikipedia.org/wiki/SIGGRAPH" title="SIGGRAPH">SIGGRAPH</a> 1999
+course notes, <a href="http://www.multires.caltech.edu/pubs/sig99notes.pdf">http://www.multires.caltech.edu/pubs/sig99notes.pdf</a>
+</p>
+
+<p class="ListParagraph" style="text-indent:-.25in"><span lang="EN-GB" style="font-family:Cambria">3.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span>Subdivision for Modeling and Animation tutorial, <a href="http://en.wikipedia.org/wiki/SIGGRAPH" title="SIGGRAPH">SIGGRAPH</a> 2000
+course notes, <a href="http://www.mrl.nyu.edu/dzorin/sig00course/">http://www.mrl.nyu.edu/dzorin/sig00course/</a></p>
+
+<p class="ListParagraph" style="text-indent:-.25in"><span lang="EN-GB" style="font-family:Cambria">4.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span>T DeRose, M Kass, T Truong - "Subdivision surfaces in
+character animation", Proceedings of SIGGRAPH 1998, <a href="http://www.cs.rutgers.edu/~decarlo/readings/derose98.pdf">http://www.cs.rutgers.edu/~decarlo/readings/derose98.pdf</a>
+</p>
+
+<p class="ListParagraph" style="text-indent:-.25in">5.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Computational Geometry Algorithms Library, <a href="http://www.cgal.org/">www.cgal.org</a>.</p>
+
+<p class="ListParagraph" style="text-indent:-.25in">6.<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+</span>Ryan’s OFF Viewer, <a href="http://www.holmes3d.net/graphics/roffview/">http://www.holmes3d.net/graphics/roffview/</a>
+</p>
+
+<h1>Artefacts</h1>
+
+<h3>Corner.off</h3>
+
+<p class="MsoNormal"><span style="font-size:10.0pt">The following images were
+generated by using CGAL to subdivide polygons in Object File Format (OFF) and
+use ROFFViewGL[6] to render the resultant OFF files.</span></p>
+
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+ <tbody><tr style="height:1.6in">
+  <td width="479" colspan="2" valign="top" style="width:6.65in;padding:0in 5.4pt 0in 5.4pt;
+  height:1.6in">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="159" height="111" id="_x0000_i1036" src="./Implementing subdivision surface schemes_files/image001.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">1Original Corner
+  Mesh</p>
+  <p class="MsoNormal">&nbsp;</p>
+  </td>
+ </tr>
+ <tr style="height:1.6in">
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:1.6in">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="160" height="134" id="_x0000_i1037" src="./Implementing subdivision surface schemes_files/image002.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 2Loop -
+  Subdivision, 2 iterations.</p>
+  <p class="MsoNormal">&nbsp;</p>
+  </td>
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:1.6in">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="160" height="124" id="_x0000_i1038" src="./Implementing subdivision surface schemes_files/image003.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 3 Loop
+  Subdivision, 4 iterations.</p>
+  </td>
+ </tr>
+ <tr style="height:1.6in">
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:1.6in">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="170" height="153" id="_x0000_i1034" src="./Implementing subdivision surface schemes_files/image004.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 4
+  Catmull-Clark, 2 iterations</p>
+  <p class="MsoNormal">&nbsp;</p>
+  </td>
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:1.6in">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="154" height="151" id="_x0000_i1035" src="./Implementing subdivision surface schemes_files/image005.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 5
+  Catmull-Clark, 4 iterations.</p>
+  </td>
+ </tr>
+ <tr style="height:1.6in">
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:1.6in">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="169" height="135" id="_x0000_i1032" src="./Implementing subdivision surface schemes_files/image006.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 6
+  Doo-Sabin, 2 iterations</p>
+  </td>
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:1.6in">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="141" height="124" id="_x0000_i1033" src="./Implementing subdivision surface schemes_files/image007.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 7 Doo
+  Sabin, 4 iterations</p>
+  </td>
+ </tr>
+</tbody></table>
+
+<h2>Cross.off</h2>
+
+<table border="0" cellspacing="0" cellpadding="0" style="border-collapse:collapse">
+ <tbody><tr style="height:139.9pt">
+  <td width="479" colspan="2" valign="top" style="width:6.65in;padding:0in 5.4pt 0in 5.4pt;
+  height:139.9pt">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="129" height="148" id="_x0000_i1029" src="./Implementing subdivision surface schemes_files/image008.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">8Original Corner
+  Mesh</p>
+  <p class="MsoNormal">&nbsp;</p>
+  </td>
+ </tr>
+ <tr style="height:157.45pt">
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:157.45pt">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="143" height="147" id="_x0000_i1030" src="./Implementing subdivision surface schemes_files/image009.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 9Loop -
+  Subdivision, 2 iterations.</p>
+  <p class="MsoNormal">&nbsp;</p>
+  </td>
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:157.45pt">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="144" height="146" id="_x0000_i1031" src="./Implementing subdivision surface schemes_files/image010.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 10 Loop
+  Subdivision, 4 iterations.</p>
+  </td>
+ </tr>
+ <tr style="height:188.05pt">
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:188.05pt">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="145" height="155" id="_x0000_i1027" src="./Implementing subdivision surface schemes_files/image011.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 11
+  Catmull-Clark, 2 iterations</p>
+  <p class="MsoNormal">&nbsp;</p>
+  </td>
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:188.05pt">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="141" height="141" id="_x0000_i1028" src="./Implementing subdivision surface schemes_files/image012.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 12
+  Catmull-Clark, 4 iterations.</p>
+  </td>
+ </tr>
+ <tr style="height:188.05pt">
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:188.05pt">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="145" height="187" id="_x0000_i1025" src="./Implementing subdivision surface schemes_files/image013.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 13 Doo
+  Sabin, 2 iterations</p>
+  </td>
+  <td width="239" valign="top" style="width:239.4pt;padding:0in 5.4pt 0in 5.4pt;
+  height:188.05pt">
+  <p class="MsoNormal" align="center" style="text-align:center"><img border="0" width="160" height="181" id="_x0000_i1026" src="./Implementing subdivision surface schemes_files/image014.jpg"></p>
+  <p class="MsoCaption" align="center" style="text-align:center">Figure 14Doo
+  Sabin, 4 iterations</p>
+  </td>
+ </tr>
+</tbody></table>
+
+<p class="MsoNormal">&nbsp;</p>
+
+</div>
+
+
+
+
+</body></html>

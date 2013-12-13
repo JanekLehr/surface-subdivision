@@ -1,6 +1,9 @@
-﻿Build started 12/10/2013 4:42:05 PM.
-     1>Project "C:\Users\Janek Lehr\Documents\Sub\Sub.vcxproj" on node 2 (Build target(s)).
-     1>Link:
+﻿Build started 12/13/2013 4:59:30 AM.
+     1>Project "F:\Development\surface-subdivision\Sub.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp".\Debug\Sub.pch" /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /FR".\Debug\\" /Gd /TP /analyze- /errorReport:prompt Control.cpp
+         Control.cpp
+       Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\Sub.exe" /INCREMENTAL /NOLOGO opengl32.lib glu32.lib glaux.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:".\Debug\Sub.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\Sub.lib" /MACHINE:X86 /SAFESEH .\Debug\Sub.res
          .\Debug\average.obj
          .\Debug\Control.obj
@@ -31,10 +34,11 @@
          .\Debug\list.obj
          .\Debug\obj.obj
          .\Debug\vertex.obj
-     1>average.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-         Sub.vcxproj -> C:\Users\Janek Lehr\Documents\Sub\.\Debug\Sub.exe
-     1>Done Building Project "C:\Users\Janek Lehr\Documents\Sub\Sub.vcxproj" (Build target(s)).
+         Sub.vcxproj -> F:\Development\surface-subdivision\.\Debug\Sub.exe
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o".\Debug\Sub.bsc" .\Debug\average.sbr .\Debug\Control.sbr .\Debug\glrender.sbr .\Debug\MainFrm.sbr .\Debug\pole.sbr .\Debug\qt.sbr .\Debug\StdAfx.sbr .\Debug\Sub.sbr .\Debug\subdiv.sbr .\Debug\SubDoc.sbr .\Debug\subsurf.sbr .\Debug\SubView.sbr .\Debug\view.sbr .\Debug\Basics.sbr .\Debug\Mat.sbr .\Debug\Mat2.sbr .\Debug\Mat3.sbr .\Debug\Mat4.sbr .\Debug\Vec.sbr .\Debug\Vec2.sbr .\Debug\Vec3.sbr .\Debug\Vec4.sbr .\Debug\array.sbr .\Debug\cell.sbr .\Debug\edge.sbr .\Debug\face.sbr .\Debug\list.sbr .\Debug\obj.sbr .\Debug\vertex.sbr
+     1>Done Building Project "F:\Development\surface-subdivision\Sub.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.00
+Time Elapsed 00:00:00.98

@@ -1,0 +1,744 @@
+
+<!-- saved from url=(0085)http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#quadedge -->
+<html><script id="tinyhippos-injected">if (window.top.ripple) { window.top.ripple("bootstrap").inject(window, document); }</script><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Quad-Edge Data Structure and Library</title>
+<style type="text/css"></style></head><body bgcolor="#ffffff" link="#0000ff" alink="#ff0000" vlink="#aa00aa"><h1>Quad-Edge Data Structure and Library</h1>
+
+
+<p>
+Computer Graphics 2, 15-463
+<br>
+Paul Heckbert
+<br>
+Carnegie Mellon University
+</p><p>
+Revision 1: 14 Feb. 2001.
+
+</p><hr>
+<h2>Overview</h2>
+The Quad-Edge data structure is useful for describing the topology and
+geometry of polyhedra.
+We will use it when implementing subdivision surfaces
+(a recent, elegant way to define curved surfaces)
+because it is elegant and it can answer adjacency queries efficiently.
+In this document we describe the data structure and a C++
+implementation of it.
+<p>
+This document has the following sections:
+</p><ul>
+<li>
+    <a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#movitation">Motivation for Quad-Edge</a>
+</li><li>
+    <a href="./Quad-Edge Data Structure and Library_files/Quad-Edge Data Structure and Library.htm">What is Quad-Edge?</a>
+</li><li>
+    <a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#doc">How to Use Our Quad-Edge Library</a>
+    <ul>
+	<li><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#edge">Edge</a>
+	</li><li><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#duality">Duality</a>
+	</li><li><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#vertex">Vertex</a>
+	</li><li><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#face">Face</a>
+	</li><li><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#cell">Cell, and Euler Operators</a>
+	</li><li><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#obj">OBJ File I/O</a>
+	</li><li><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#program">Example Program</a>
+    </li></ul>
+</li></ul>
+
+<hr>
+<a name="movitation">
+<h2>Motivation for the Quad-Edge Data Structure</h2>
+
+We'd like to be able to create a variety of polyhedra.
+Some simple and highly summetric polyhedra are
+the five
+</a><a href="http://www.teleport.com/~tpgettys/platonic.shtml">
+Platonic Solids</a>
+(tetrahedron, octahedron, cube, dodecahedron, icosahedron),
+or more generally
+the
+<a href="http://www.teleport.com/~tpgettys/archimed.shtml">
+Archimedean Solids</a>
+(cuboctahedron, soccerball, ...),
+or even more generally the
+<a href="http://www.mathconsult.ch/showroom/unipoly/">
+<b>Uniform Polyhedra</b></a>.
+Follow that link <b>now</b> to see a very nice collection of
+pictures of polyhedra.
+Click on the link "visual index" there, then click on a polyhedron,
+then click on its picture and after a second you'll see the object spin
+(animated GIF)!
+See also the very cool collection of links on
+<a href="http://www.ics.uci.edu/~eppstein/junkyard/polytope.html">
+Polyhedra and Polytopes</a>
+that is part of David Eppstein's nice web collection,
+<a href="http://www.ics.uci.edu/~eppstein/junkyard/">
+The Geometry Junkyard</a>
+(from which I got most of the preceding links).
+Some of my own creations are shown on his
+<a href="http://www.ics.uci.edu/~eppstein/junkyard/zono.html">
+zonohedron</a> page.
+<p>
+All of these can be created by doing truncations (cutting off
+each vertex), stellations (building a prism on each face), or other simple
+operations on the Platonic solids.
+<!--A HREF="http://www.wolfram.com/look/maps/polyhedra.html"
+some pictures-->
+It would be interesting to write code to generate such polyhedra,
+possibly even to animate transformations (3-D morphs) between them,
+but what data structure should we use for this?
+</p><p>
+<b>First Try: list of polygons.</b>
+The first, and simplest data structure we might think of is a simple
+list of polygons, each one storing (redundantly) all of its vertex
+coordinates.
+That is, in C++:
+</p><blockquote><pre>struct Vert {double x, y, z;};	// vertex position
+Vert tri[NFACES][3];		// array of triangles, each with 3 vertices
+</pre></blockquote>
+With this data structure, the vertices of face f would be at the xyz points
+<tt>tri[f][i]</tt> for i=0,1,2.
+The above scheme is for triangulated models, where each face
+(polygon) has three sides, but it could obviously be generalized
+for models with n-sided faces.
+With this data structure, it would be
+very clumsy to try to do an operation like vertex truncation, where
+you need to find all the vertices adjacent (connected by an edge)
+to a given vertex.
+To do that you'd need to search through the face list for other vertices
+with equal coordinates --
+inefficient, and inelegant.
+<p>
+<b>Second Try: vertex and face lists.</b>
+A better alternative would be to store the vertices separately,
+and make the faces be pointers to the vertices:
+</p><blockquote><pre>Vert vert[NVERTS];		// array of vertices
+struct Tri {Vert *p, *q, *r;};	// triangle holds 3 vertex pointers
+Tri tri[NFACES];		// array of triangular faces
+</pre></blockquote>
+Again, this is the code for triangular faces only.
+This second method reduces redundancy, but
+finding the vertices adjacent to a given vertex
+would still be costly (O(NFACES)), as you'd have to search
+the entire face list.
+The above two data structures record the geometric information
+(vertex positions) just fine, but they are lacking in topological
+information that records connectedness (adjacencies) between vertices,
+edges, and faces.
+The first data structure stored no topological information,
+the second stored only pointers from faces to vertices.
+<p>
+We can do better.
+To do so we'll need to store even more topological information,
+so that we can find the vertices/edges/faces immediately adjacent to
+a given vertex/edge/face in constant time.
+
+</p><hr>
+<a name="quadedge">
+<h2>The Quad-Edge Data Structure</h2>
+
+A particularly elegant data structure for polyhedra
+is the quad-edge data structure,
+invented by
+</a><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/quadedge.html#guibas">
+Guibas and Stolfi</a>.
+It can't represent all collections of polygons;
+it is limited to manifolds
+(surfaces where the neighborhood of each point is topologically
+equivalent to a disk; edges are always shared by two faces).
+<p>
+In the quad-edge data structure, there are classes for vertices,
+edges, and faces, but edges play the leading role.
+The edges store complete topological information;
+all of the
+topological information stored by the faces and vertices is redundant
+with information in the edges.
+Figuratively speaking, the edges form the skeleton,
+and the vertices and faces are optional decorations, hanging off of the edges.
+Vertices hold most of the geometric (shape) information.
+</p><p>
+We now describe our implementation of quad-edge.
+We emphasize the high level public routines that you are encouraged to use.
+The full details are in the code in the
+<a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/cell/">
+cell directory</a>.
+
+</p><hr>
+<a name="doc">
+<h2>How to Use our Quad-Edge Library</h2>
+
+</a><a name="edge">
+<h3>Edge</h3>
+
+The class <tt>Edge</tt> represents a directed edge.
+Given <tt>Edge *e</tt>,
+you can find the immediately adjacent vertices, faces, and edges,
+and the "symmetric" edge that points in the opposite direction.
+These operators are all fast (just a few memory references).
+Because edges are directed
+and we always imagine ourselves viewing the object from the outside,
+we can speak of the origin and destination vertices
+and left and right faces of an edge.
+We summarize the interface below
+(see
+</a><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/cell/edge.hh">cell/edge.hh</a>,
+for the full story).
+<ul>
+<img src="./Quad-Edge Data Structure and Library_files/vertface.jpeg"><br>
+<li>
+    <tt>Edge *e</tt>	- directed edge
+<p>
+</p></li><li>
+    <tt>Vertex *e-&gt;Org()</tt>	- vertex at the origin of e
+</li><li>
+    <tt>Vertex *e-&gt;Dest()</tt>	- vertex at the destination of e
+<p>
+</p></li><li>
+    <tt>Face *e-&gt;Left()</tt>	- face on the left of e
+</li><li>
+    <tt>Face *e-&gt;Right()</tt>	- face on the right of e
+<p>
+</p></li></ul>
+<img src="./Quad-Edge Data Structure and Library_files/edge.jpeg"><br>
+In the following functions, "next" means next in a counterclockwise (ccw)
+sense around a neighboring face or vertex.
+<ul>
+<li>
+    <tt>Edge *e-&gt;Rnext()</tt>	- next edge around right face, with same right face
+</li><li>
+    <tt>Edge *e-&gt;Lnext()</tt>	- next edge around left face, with same left face
+</li><li>
+    <tt>Edge *e-&gt;Onext()</tt>	- next edge around origin, with same origin
+</li><li>
+    <tt>Edge *e-&gt;Dnext()</tt>	- next edge around dest, with same dest
+</li></ul>
+In the following functions, "prev" means next in a clockwise (cw)
+sense around a neighboring face or vertex.
+<ul>
+<li>
+    <tt>Edge *e-&gt;Rprev()</tt>	- prev edge around right face, with same right face
+</li><li>
+    <tt>Edge *e-&gt;Lprev()</tt>	- prev edge around left face, with same left face
+</li><li>
+    <tt>Edge *e-&gt;Oprev()</tt>	- prev edge around origin, with same origin
+</li><li>
+    <tt>Edge *e-&gt;Dprev()</tt>	- prev edge around dest, with same dest
+</li></ul>
+
+It is recommended that you take a moment to verify for yourself in the
+figure how Lnext and Rnext use
+rotation about a face, while Onext and Dnext use rotation about a
+vertex.
+<p>
+The following member function returns a unique integer
+ID for each edge.
+</p><ul>
+<li>
+    <tt>unsigned int e-&gt;getID()</tt>	- id# of this edge
+</li></ul>
+When debugging, you might want to print id numbers.
+<p>
+Using <tt>Lnext</tt>, we could loop around the edges of the
+face on the left of edge <tt>estart</tt> in ccw order:
+</p><blockquote><pre>void leftFromEdge(Edge *estart) {
+    Edge *e = estart;
+    do {
+	&lt;do something with edge e&gt;
+	e = e-&gt;Lnext();
+    } while (e!=estart);
+}
+</pre></blockquote>
+Note that we need "do ... while" as opposed to "for" or "while" because
+(a) we don't know beforehand how many edges the face has (quad-edge is
+not limited to triangulated surfaces),
+(b) following the <tt>Lnext</tt>'s yields a cycle, and
+(c) we want to visit each edge exactly once.
+If <tt>Lprev</tt> were used instead of <tt>Lnext</tt>
+we'd visit the left face's edges in cw order.
+<p>
+The number of edges of a face (the face <i>degree</i> or valence)
+is 3 or greater for "real" polyhedra,
+but sometimes during construction of data structures, it is
+useful to have faces with 1 or 2 edges, which would correspond
+geometrically to loops or degenerate sliver polygons.
+</p><p>
+Similarly, the edges around the origin vertex of edge <tt>estart</tt>
+can be visited in ccw order like so:
+</p><blockquote><pre>void orgFromEdge(Edge *estart) {
+    Edge *e = estart;
+    do {
+	&lt;do something with edge e&gt;
+	e = e-&gt;Onext();
+    } while (e!=estart);
+}
+</pre></blockquote>
+The degree of a vertex is 3 or greater for "real" polyhedra,
+but as with faces, during construction we sometimes build vertices of
+degree 1 or 2.
+<p>
+Since visiting the edges around a face (or edges around a vertex)
+is quite common,
+we have set up some iterator classes to simplify your code.
+Using the iterator, an alternative to <tt>leftFromEdge</tt> is:
+</p><blockquote><pre>void edgesOfFace(Face *face) {
+    // visit edges of face in ccw order; edges have face on the left
+    FaceEdgeIterator faceEdges(face);
+    Edge *edge;
+    while ((edge = faceEdges.next()) != 0)
+	&lt;do something with edge e&gt;
+}
+</pre></blockquote>
+Note that this functions a bit differently from <tt>leftFromEdge</tt>;
+its input is a face pointer, not an edge pointer, so you don't have control
+over which of the face's edges will get visited first, but that usually doesn't
+matter, anyway.
+Once an iterator has gone through its list, it is "spent".
+If you want to go through the list again, you must construct a new iterator.
+<p>
+Using an iterator, the alternative to <tt>orgFromEdge</tt> is:
+</p><blockquote><pre>void edgesOfVertex(Vertex *vert) {
+    // visit edges of vertex in ccw order; edges have vert as origin
+    VertexEdgeIterator vertEdges(vert);
+    Edge *edge;
+    while ((edge = vertEdges.next()) != 0)
+	&lt;do something with edge e&gt;
+}
+</pre></blockquote>
+
+<a name="duality">
+<h3>Duality</h3>
+
+You may have noticed how similarly vertices and faces are treated in
+the above.
+That is no accident.
+Guibas and Stolfi designed the quad-edge data structure with
+that duality in mind.
+
+<img src="./Quad-Edge Data Structure and Library_files/dual.jpeg"><br>
+<p>
+The <i>dual</i> of a polyhedron is the polyhedron resulting from
+rotating edges 90 degrees, replacing vertices with faces,
+and faces with vertices.
+The new vertex locations can be taken to be the centroids of the old faces.
+For example,
+the dual of a cube is an octahedron, and vice versa;
+and dodecahedra and icosahedra are duals of each other, also.
+A tetrahedron is dual with a rotated copy of itself.
+</p><p>
+The quad-edge data structure gets its name because the duality is built
+in at a low level by storing quadruples of directed edges together:
+
+<br><img src="./Quad-Edge Data Structure and Library_files/quadedge.jpeg"><br>
+
+</p><ul>
+<li>
+    <tt>Edge *e</tt>	- directed edge
+</li><li>
+    <tt>Edge *e-&gt;Sym()</tt>	- edge pointing opposite to e
+</li><li>
+    <tt>Edge *e-&gt;Rot()</tt>	- dual edge pointing to the left of e
+</li><li>
+    <tt>Edge *e-&gt;InvRot()</tt>	- dual edge pointing to the right of e
+</li></ul>
+You will probably need <tt>Sym</tt>, but perhaps not
+<tt>Rot</tt> or <tt>InvRot</tt>.
+Internally, our implementation stores only four essential
+pieces of information with each edge (origin vertex, left face,
+Onext, and quadedge index) and the rest of the adjacency operators
+(<tt>Dest</tt>, <tt>Right</tt>,
+<tt>Lnext</tt>, <tt>Rprev</tt>, <tt>Dnext</tt>, ...)
+are derived using <tt>Sym</tt> and <tt>Rot</tt>.
+Duals are also
+extremely useful for Voronoi diagrams and Delaunay triangulation,
+but that's another course (computational geometry).
+
+</a><a name="vertex">
+<h3>Vertex</h3>
+
+The information stored at a vertex consists of one piece of topological
+information (a pointer to one of the outgoing edges of the vertex),
+plus geometric information (the (x,y,z) position),
+and optional attribute information (color, normals, etc).
+The public interface you should use is summarized below
+(see
+</a><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/cell/vertex.hh">cell/vertex.hh</a>
+for the full code).
+
+<blockquote><pre>class Vertex {
+    Vec3 pos;			// (x,y,z) position of this vertex
+    const void *data;		// data pointer for this vertex
+    Edge *getEdge();		// an outgoing edge of this vertex
+    unsigned int getID();	// id# of this vertex (unique for this Cell)
+};
+</pre></blockquote>
+Here, <tt>Vec3</tt> is essentially an array of three doubles,
+but with <i>many</i> additional operators and functions that will
+come in quite handy.
+The <tt>Vec3</tt> class comes from the Simple Vector Library (SVL) of
+former CMU grad student Andrew Willmott.
+Take the time to skim his
+<a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/svl/doc/svl.html">
+documentation</a>; it will pay off.
+<p>
+There is a data pointer for each vertex, for extensibility.
+You can store arbitary (4 byte) information there, or pointers to
+additional memory (e.g. for colors, normals, or texture coordinates).
+
+<a name="face">
+</a></p><h3><a name="face">Face</a></h3><a name="face">
+
+Each face stores one piece of topological
+information, a pointer to one of the ccw-oriented edges of the face,
+plus optional attribute information (color, etc).
+The public interface you should use is summarized below
+(see
+</a><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/cell/face.hh">cell/face.hh</a>
+code).
+
+<blockquote><pre>class Face {
+    Edge *getEdge();		// a ccw-oriented edge of this face
+    const void *data;		// data pointer for this vertex
+    unsigned int getID();	// id# of this face (unique for this Cell)
+};
+</pre></blockquote>
+<p>
+The data pointer here is just like that for vertices.
+
+<a name="cell">
+</a></p><h3><a name="cell">Cell, and Euler Operators</a></h3><a name="cell">
+
+A <tt>Cell</tt> is a single polyhedron, which includes sets of vertices,
+edges, and faces.
+The routines you will need most are the following four:
+<blockquote><pre>class Cell {
+    Edge *makeVertexEdge(Vertex *v, Face *left, Face *right);
+    Edge *makeFaceEdge(Face *f, Vertex *org, Vertex *dest);
+    void killVertexEdge(Edge *e);
+    void killFaceEdge(Edge *e);
+};
+</pre></blockquote>
+which are called Euler operators, since they maintain Euler's formula
+V-E+F=2 interrelating
+the number of vertices, edges, and faces of a polyhedron
+of genus 0 (topologically equivalent to a sphere).
+If the topology is a valid polyhedron before the call,
+it will be valid after the call, as well.
+Note that these routines update the topology, but they use the
+default constructors for <tt>Vertex</tt> and <tt>Face</tt>, so
+the positions of new vertices are (0,0,0) --
+you'll have to set them yourself.
+<p>
+Also, these routines (and the rest of the library) do not enforce
+linearity of edges or planarity of faces.
+It is permissible to have vertices and faces of degree 1 or 2,
+for example.
+
+<br><img src="./Quad-Edge Data Structure and Library_files/eulerop.jpeg"><br>
+</p><p>
+Given <tt>Cell *c</tt>, the calls do the following:
+</p><ul>
+<li>
+    <tt>c-&gt;makeVertexEdge(v, left, right)</tt> splits vertex <tt>v</tt>,
+    creating a new edge and vertex that both lie between faces <tt>left</tt>
+    and <tt>right</tt>.
+    The new edge has <tt>left</tt> on its left and <tt>right</tt> on its right,
+    <tt>v</tt> at its origin and the new vertex at its destination.
+    The new edge is returned;
+    the new vertex is easily found by taking <tt>Dest()</tt>
+    of the return value.
+    The new vertex and edge are stored in the sets associated with
+    cell <tt>c</tt>.
+    If <tt>left</tt> and <tt>right</tt> are not adjacent to <tt>v</tt>
+    then an error message will be printed and core dumped.
+</li><li>
+    <tt>c-&gt;makeFaceEdge(f, org, dest)</tt> is the dual of this.
+    It splits face <tt>f</tt>,
+    creating a new edge and face that both lie between vertices <tt>org</tt>
+    and <tt>dest</tt>.
+    The new edge has <tt>org</tt> as its origin and <tt>dest</tt> as its
+    destination,
+    <tt>f</tt> as its left face and the new face as its right face.
+    The new edge is returned;
+    the new face is easily found by taking <tt>Right()</tt>
+    of the return value.
+    The new face and edge are stored in the sets associated with
+    cell <tt>c</tt>.
+    If <tt>org</tt> and <tt>dest</tt> are not adjacent to <tt>f</tt>
+    then an error message will be printed and core dumped.
+</li><li>
+    <tt>c-&gt;killVertexEdge(e)</tt> is the inverse of
+    <tt>makeVertexEdge</tt>.
+    It removes edge <tt>e</tt> and vertex <tt>e-&gt;Dest()</tt>.
+    Thus,
+    <tt>c-&gt;killVertexEdge(c-&gt;makeVertexEdge(v, left, right))</tt>
+    is a no-op.
+</li><li>
+    <tt>c-&gt;killFaceEdge(e)</tt> is the inverse of
+    <tt>makeFaceEdge</tt>.
+    It removes edge <tt>e</tt> and face <tt>e-&gt;Right()</tt>.
+    Thus,
+    <tt>c-&gt;killFaceEdge(c-&gt;makeFaceEdge(f, org, dest))</tt>
+    is a no-op.
+</li></ul>
+It is possible to build up a quad-edge data structure without using
+these routines, by using only the lower level routines, but it is
+many times more difficult and error-prone, so we discourage it.
+<p>
+For debugging or display purposes, you'll often want to loop over all
+the vertices, edges, or faces of a cell.
+</p><p>
+To loop over the vertices of <tt>Cell *c</tt>:
+</p><blockquote><pre>CellVertexIterator cellVerts(c);
+Vertex *v;
+while ((v = cellVerts.next()) != 0)
+    &lt;do something with vertex v&gt;
+</pre></blockquote>
+
+To loop over the faces of <tt>Cell *c</tt>:
+<blockquote><pre>CellFaceIterator cellFaces(c);
+Face *f;
+while ((f = cellFaces.next()) != 0)
+    &lt;do something with face f&gt;
+</pre></blockquote>
+
+Thus, to draw all the faces with OpenGL,
+using random colors:
+<blockquote><pre>#include &lt;stdlib.h&gt;
+double frand() {return (double)rand()/RAND_MAX;}
+CellFaceIterator cellFaces(c);
+Face *f;
+while ((f = cellFaces.next()) != 0) {
+    glColor3f(frand(), frand(), frand()};
+    glBegin(GL_POLYGON);
+    FaceEdgeIterator faceEdges(f);
+    Edge *edge;
+    while ((edge = faceEdges.next()) != 0)
+	glVertex3dv(&amp;edge-&gt;Org()-&gt;pos[0]);
+    glEnd();
+}
+</pre></blockquote>
+In the above, <tt>edge-&gt;Org()</tt> is the origin of
+the current edge of the face, and the <tt>&amp;...-&gt;pos[0]</tt> takes the
+address of its x coordinate.
+We could equally well use <tt>Dest</tt>.
+
+Stepping through the (undirected) edges of a cell is more complex, as we have
+things set up.
+Note that there are twice as many directed edges as undirected edges.
+The above code visits all directed edges once, so it visits each undirected
+edge twice.
+But for wireframe drawing and many other purposes
+you would want to operate on each undirected edge just once.
+A clever way to guarantee this,
+without marking edges or
+any additional arrays or lists, is to visit each undirected edge twice,
+but use the fact that the pointers to the two vertices are addresses,
+one of which is larger than the other:
+<blockquote><pre>CellFaceIterator cellFaces(c);
+Face *f;
+while ((f = cellFaces.next()) != 0) {
+    // visit each face of cell c
+    FaceEdgeIterator faceEdges(f);
+    Edge *edge;
+    while ((edge = faceEdges.next()) != 0) {
+	// visit each edge of face f
+	// if edge passes the following, its Sym will not,
+	// and vice-versa
+	if (edge-&gt;Org() &lt; edge-&gt;Dest())
+	    &lt;do something with edge&gt;
+    }
+}
+</pre></blockquote>
+One could create a "CellEdgeIterator" using this approach, I suppose.
+
+</a><a name="obj">
+<h3>OBJ File I/O</h3>
+
+So far we've seen how to modify polyhedra, but how would you create one
+in the first place?
+The easiest way is by reading a file.
+We have code to read and write polyhedral models in Wavefront's OBJ file
+format.
+Full documentation on the format is available from a
+</a><a href="http://www.mhri.edu.au/~pdb/3dformats/">
+3-D format collection</a>,
+and are here some complex
+<a href="ftp://ftp.cs.cmu.edu/afs/cs/project/anim-2/models/obj/">
+models in OBJ format</a>.
+The subset of the format that we read and write
+consists of lines with the syntax
+<blockquote>
+<tt># comment</tt><br>
+<tt>v</tt> <i>x y z</i><br>
+<tt>f</tt> <i>v<sub>1</sub> v<sub>2</sub> ... v<sub>n</sub></i>
+</blockquote>
+where the <i>i</i>th <tt>v</tt> line defines vertex <i>i</i>,
+with <i>i</i> starting at 1.
+<i>x</i>, <i>y</i>, and <i>z</i> are floating point numbers.
+Each <tt>f</tt> line defines an <i>n</i>-sided face,
+where the <i>v<sub>j</sub></i> are vertex indices.
+For example, the following defines a tetrahedron:
+<blockquote><pre>v -1 -1 -1
+v 1 1 -1
+v -1 1 1
+v 1 -1 1
+f 2 3 4
+f 1 4 3
+f 1 3 2
+f 1 2 4
+</pre></blockquote>
+where vertex 1 (v1) is at (-1,-1,-1) and face 1 has vertices v2, v3, v4.
+Faces are counterclockwise when viewed from the outside, by convention.
+OBJ files for Platonic solids are in the
+<a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/model">
+model directory</a>.
+These are the recommended test objects for this assignment.
+<p>
+To read an OBJ file, use the function
+<tt>Cell *objReadCell(char *filename)</tt>, and to write one,
+call the function
+<tt>objWriteCell(Cell *cell, char *filename)</tt>.
+The former returns NULL on error.
+
+<a name="program">
+</a></p><h3><a name="program">A Complete Quad-Edge Program</a></h3><a name="program">
+
+To put all the pieces together, we'll now show a program that reads in
+a cube file and then splits each edge in two (the first step in the
+construction of a cuboctahedron, perhaps).
+You might think that this will be a trivial application of the
+visit-all-edges code shown earlier, visiting each undirected edge once
+and calling <tt>makeVertexEdge</tt> on one of its vertices to split the edge.
+This would start to work, but note that the edge visiting algorithm
+operates sequentially, so as new edges are added to the cell, they will
+get traversed and split again!
+This is a problem!
+<p>
+To solve this, we can store a "splitme" bit for each edge in its
+<tt>data</tt> field
+(assuming <tt>data</tt> isn't being used for other purposes).
+Since <tt>data</tt> is a <tt>void *</tt>, it's necessary to
+cast when reading it.
+In our case we'll be storing an <tt>int</tt> in <tt>data</tt>.
+
+</p><blockquote><pre>Edge *split(Edge *e) {
+    // split edge e, putting new vertex at midpoint
+
+    // get Cell pointer from vertex (Edges don't have one)
+    Cell *c = e-&gt;Org()-&gt;getCell();
+
+    // split, creating new edge and vertex (sets topology only)
+    Edge *enew = c-&gt;makeVertexEdge(e-&gt;Org(), e-&gt;Left(), e-&gt;Right());
+
+    // At this point enew-&gt;Dest()==e-&gt;Org(),
+    // and enew-&gt;Dest(), the new vertex, is between enew and e.
+    // You might want to check the defn of makeVertexEdge to
+    // convince yourself of this.
+
+    // position new vertex at midpoint (note use of Vec3::operator+)
+    enew-&gt;Dest()-&gt;pos = .5*(enew-&gt;Org()-&gt;pos + e-&gt;Dest()-&gt;pos);
+
+    return enew;	// return new edge
+}
+
+void splitAll(Cell *c) {
+    {
+	// first, set the splitme bits of all original edges
+	CellFaceIterator cellFaces(c);
+	Face *f;
+	while ((f = cellFaces.next()) != 0) {
+	    // visit each face of cell c
+	    FaceEdgeIterator faceEdges(f);
+	    Edge *edge;
+	    while ((edge = faceEdges.next()) != 0) {
+		// visit each edge of face f
+		int splitme = edge-&gt;Org() &lt; edge-&gt;Dest();
+		// splitme = 0 or 1
+		// my Sym's bit will be the complement of mine
+		edge-&gt;data = splitme;	// set bit
+	    }
+	}
+    }
+    {
+	// go through again, splitting marked edges
+	// need to construct a new iterator, hence the {}'s
+	CellFaceIterator cellFaces(c);
+	Face *f;
+
+	while ((f = cellFaces.next()) != 0) {
+	    // visit each face of cell c
+	    FaceEdgeIterator faceEdges(f);
+	    Edge *edge;
+	    while ((edge = faceEdges.next()) != 0) {
+		// visit each edge of face f
+		// if its "splitme" bit set then split it
+		if ((int)edge-&gt;data) {
+		    Edge *enew = split(edge);
+
+		    // clear splitme bits on two sub-edges and
+		    // their Syms to avoid recursive splitting
+		    edge-&gt;data = 0;
+		    edge-&gt;Sym()-&gt;data = 0;
+		    enew-&gt;data = 0;
+		    enew-&gt;Sym()-&gt;data = 0;
+		}
+	    }
+	}
+    }
+}
+
+void main() {
+    Cell *c;
+    c = objReadCell("cube.obj");	// read cube.obj
+    if (!c) exit(1);
+    splitAll(c);			// split all edges
+}
+</pre></blockquote>
+
+<hr>
+<b>Acknowledgments</b>:
+The quad-edge data structure was
+first described in the excellent, but rather abstract article
+</a><a name="guibas">
+[
+Leonidas Guibas and Jorge Stolfi,
+Primitives for the manipulation of general subdivisions
+and the computation of Voronoi diagrams,
+<i>ACM Transactions on Graphics</i>,
+4(2),
+1985,
+75-123.
+].
+CMU graduate student
+Andrew Bernard wrote this quad-edge library based on
+previous code from
+</a><a name="lischinski">
+[
+Dani Lischinski,
+Incremental Delaunay Triangulation,
+<i>Graphics Gems IV</i>,
+Paul Heckbert, ed.,
+Academic Press,
+1994,
+47-59.
+</a><a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/lischinski/114.ps">
+PS for article</a> ,
+<a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/src/a2/lischinski/code">
+C++ code</a>.
+].
+Michael Garland provided advice.
+I wrote the OBJ-to-quad-edge converter.
+Quad-edge is a variant of the earlier winged-edge data structure,
+which was described in the excellent, highly readable article
+[
+Bruce G. Baumgart,
+A polyhedron representation for computer vision,
+<i>Natl. Computer Conf. Proc.</i>,
+AFIPS, 1975,
+589-596
+].
+Our quad-edge library is partially based on Pat Hanrahan's
+winged-edge library from the New York Institute of Technology.
+
+<p>
+<a href="http://www.cs.cmu.edu/afs/andrew/scs/cs/15-463/2001/pub/www/463.html"> 15-463, Computer Graphics 2</a>
+<br>
+Paul Heckbert
+</p></body></html>

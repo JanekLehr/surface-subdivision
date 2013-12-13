@@ -37,4 +37,14 @@ public:
 	static void average( Vertex *v );
 };
 
+class AvgLooping : public Average
+{
+public:
+	AvgLooping() {}
+	void operator()(Cell*);
+	static Double beta(Int numNeighbors);
+	static Double alpha(Int numNeighbors);
+	static void average(Vertex *v);
+};
+
 #endif

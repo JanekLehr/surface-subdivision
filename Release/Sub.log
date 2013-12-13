@@ -1,0 +1,110 @@
+﻿Build started 12/13/2013 12:52:08 PM.
+     1>Project "F:\Development\surface-subdivision\Sub.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob2 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /D _AFXDLL /GF /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp".\Release\Sub.pch" /Fo".\Release\\" /Fd".\Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt StdAfx.cpp
+         StdAfx.cpp
+     1>C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\include\afx.h(38): warning C4996: 'MBCS_Support_Deprecated_In_MFC': MBCS support in MFC is deprecated and may be removed in a future version of MFC.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\include\afx.h(33) : see declaration of 'MBCS_Support_Deprecated_In_MFC'
+         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob2 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /D _AFXDLL /GF /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo".\Release\\" /Fd".\Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt average.cpp glrender.cpp pole.cpp qt.cpp subdiv.cpp subsurf.cpp view.cpp svl\Basics.cpp svl\Mat.cpp svl\Mat2.cpp svl\Mat3.cpp svl\Mat4.cpp svl\Vec.cpp svl\Vec2.cpp svl\Vec3.cpp svl\Vec4.cpp cell\array.cpp cell\cell.cpp cell\edge.cpp cell\face.cpp cell\list.cpp cell\obj.cpp cell\vertex.cpp
+         average.cpp
+         glrender.cpp
+     1>C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\include\afx.h(38): warning C4996: 'MBCS_Support_Deprecated_In_MFC': MBCS support in MFC is deprecated and may be removed in a future version of MFC.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\include\afx.h(33) : see declaration of 'MBCS_Support_Deprecated_In_MFC'
+         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
+         pole.cpp
+     1>f:\development\surface-subdivision\svl\Vec.h(81): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>f:\development\surface-subdivision\svl\Mat.h(96): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+         qt.cpp
+         subdiv.cpp
+         subsurf.cpp
+     1>C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\include\afx.h(38): warning C4996: 'MBCS_Support_Deprecated_In_MFC': MBCS support in MFC is deprecated and may be removed in a future version of MFC.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\include\afx.h(33) : see declaration of 'MBCS_Support_Deprecated_In_MFC'
+         _WIN32_WINNT not defined. Defaulting to _WIN32_WINNT_MAXVER (see WinSDKVer.h)
+         view.cpp
+         Basics.cpp
+         Mat.cpp
+     1>f:\development\surface-subdivision\svl\Vec.h(81): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>f:\development\surface-subdivision\svl\Mat.h(96): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>svl\Mat.cpp(546): warning C4244: 'initializing' : conversion from 'std::streamsize' to 'Int', possible loss of data
+         Mat2.cpp
+     1>svl\Mat2.cpp(63): warning C4244: 'initializing' : conversion from 'std::streamsize' to 'Int', possible loss of data
+         Mat3.cpp
+     1>svl\Mat3.cpp(281): warning C4244: 'initializing' : conversion from 'std::streamsize' to 'Int', possible loss of data
+         Mat4.cpp
+     1>svl\Mat4.cpp(343): warning C4244: 'initializing' : conversion from 'std::streamsize' to 'Int', possible loss of data
+         Vec.cpp
+     1>f:\development\surface-subdivision\svl\Vec.h(81): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>svl\Vec.cpp(191): warning C4018: '<=' : signed/unsigned mismatch
+     1>svl\Vec.cpp(456): warning C4244: '=' : conversion from 'std::streamsize' to 'Int', possible loss of data
+         Vec2.cpp
+     1>svl\Vec2.cpp(22): warning C4244: 'initializing' : conversion from 'std::streamsize' to 'Int', possible loss of data
+         Vec3.cpp
+     1>svl\Vec3.cpp(22): warning C4244: 'initializing' : conversion from 'std::streamsize' to 'Int', possible loss of data
+         Vec4.cpp
+     1>svl\Vec4.cpp(78): warning C4244: 'initializing' : conversion from 'std::streamsize' to 'Int', possible loss of data
+         array.cpp
+         cell.cpp
+         edge.cpp
+         face.cpp
+         Generating Code...
+         Compiling...
+         list.cpp
+         obj.cpp
+     1>f:\development\surface-subdivision\svl\Vec.h(81): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>f:\development\surface-subdivision\svl\Mat.h(96): warning C4800: 'unsigned long' : forcing value to bool 'true' or 'false' (performance warning)
+     1>cell\obj.cpp(744): warning C4018: '<' : signed/unsigned mismatch
+     1>cell\obj.cpp(998): warning C4018: '<' : signed/unsigned mismatch
+     1>cell\obj.cpp(1007): warning C4018: '<' : signed/unsigned mismatch
+     1>cell\obj.cpp(1038): warning C4018: '<' : signed/unsigned mismatch
+     1>cell\obj.cpp(1047): warning C4018: '<' : signed/unsigned mismatch
+         vertex.cpp
+         Generating Code...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Ob2 /Oy- /D WIN32 /D NDEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /D _AFXDLL /GF /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp".\Release\Sub.pch" /Fo".\Release\\" /Fd".\Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Control.cpp MainFrm.cpp Sub.cpp SubDoc.cpp SubView.cpp
+         Control.cpp
+         MainFrm.cpp
+         Sub.cpp
+     1>Sub.cpp(58): warning C4996: 'CWinApp::Enable3dControls': CWinApp::Enable3dControls is no longer needed. You should remove this call.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\include\afxwin.h(5178) : see declaration of 'CWinApp::Enable3dControls'
+         SubDoc.cpp
+         SubView.cpp
+         Generating Code...
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D NDEBUG /D _VC80_UPGRADE=0x0600 /D _AFXDLL /l"0x0409" /nologo /fo".\Release\Sub.res" Sub.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Release\Sub.exe" /INCREMENTAL:NO /NOLOGO opengl32.lib glu32.lib glaux.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /PDB:".\Release\Sub.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Release\Sub.lib" /MACHINE:X86 /SAFESEH .\Release\Sub.res
+         .\Release\average.obj
+         .\Release\Control.obj
+         .\Release\glrender.obj
+         .\Release\MainFrm.obj
+         .\Release\pole.obj
+         .\Release\qt.obj
+         .\Release\StdAfx.obj
+         .\Release\Sub.obj
+         .\Release\subdiv.obj
+         .\Release\SubDoc.obj
+         .\Release\subsurf.obj
+         .\Release\SubView.obj
+         .\Release\view.obj
+         .\Release\Basics.obj
+         .\Release\Mat.obj
+         .\Release\Mat2.obj
+         .\Release\Mat3.obj
+         .\Release\Mat4.obj
+         .\Release\Vec.obj
+         .\Release\Vec2.obj
+         .\Release\Vec3.obj
+         .\Release\Vec4.obj
+         .\Release\array.obj
+         .\Release\cell.obj
+         .\Release\edge.obj
+         .\Release\face.obj
+         .\Release\list.obj
+         .\Release\obj.obj
+         .\Release\vertex.obj
+         Sub.vcxproj -> F:\Development\surface-subdivision\.\Release\Sub.exe
+     1>Done Building Project "F:\Development\surface-subdivision\Sub.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:17.84
