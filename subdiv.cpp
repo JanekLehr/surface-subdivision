@@ -194,6 +194,7 @@ int splitAllFaces(Cell *c) {
 
 int subdivideOnce(Cell *cell) {
     markAllVerticesEven(cell);
+	// TODO: For butterfly we need at lease 6 faces so possibly split twice if it's the first time
     splitAllEdges(cell);
     int nfaces = splitAllFaces(cell);
     return nfaces;

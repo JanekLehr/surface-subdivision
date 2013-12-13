@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -27,18 +25,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -66,15 +64,15 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON    DISCARDABLE     "res\\Sub.ico"
-IDR_SUBTYPE             ICON    DISCARDABLE     "res\\SubDoc.ico"
+IDR_MAINFRAME           ICON                    "res\\Sub.ico"
+IDR_SUBTYPE             ICON                    "res\\SubDoc.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Menu
 //
 
-IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+IDR_MAINFRAME MENU
 BEGIN
     POPUP "&File"
     BEGIN
@@ -108,7 +106,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+IDR_MAINFRAME ACCELERATORS
 BEGIN
     "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
@@ -131,8 +129,8 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ABOUTBOX DIALOG 0, 0, 235, 55
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About Sub"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -142,27 +140,28 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
 END
 
-IDD_CONTROL DIALOGEX 50, 50, 186, 223
-STYLE DS_MODALFRAME | WS_VISIBLE | WS_CAPTION
+IDD_CONTROL DIALOGEX 50, 50, 187, 263
+STYLE DS_SETFONT | DS_MODALFRAME | WS_VISIBLE | WS_CAPTION
 CAPTION "Controls"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    CONTROL         "Slider1",IDC_LEVELSLIDER,"msctls_trackbar32",
-                    TBS_AUTOTICKS | TBS_TOP | WS_TABSTOP,7,65,172,23,
-                    WS_EX_TRANSPARENT
-    LTEXT           "Level",IDC_STATIC,7,52,18,8
-    COMBOBOX        IDC_SUBSTYLE,33,22,119,47,CBS_DROPDOWN | WS_VSCROLL | 
-                    WS_TABSTOP
-    CONTROL         "Move Low Resolution",IDC_MOVELORES,"Button",
-                    BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,95,128,10
-    CONTROL         "Edit Low Resolution",IDC_EDITLORES,"Button",
-                    BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,110,79,10
-    CONTROL         "Wireframe",IDC_WIREFRAME,"Button",BS_AUTOCHECKBOX | 
-                    BS_NOTIFY | WS_TABSTOP,15,125,85,10
+    CONTROL         "Slider1",IDC_LEVELSLIDER,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOP | WS_TABSTOP,7,50,173,23,WS_EX_TRANSPARENT
+    LTEXT           "Level",IDC_STATIC,7,42,18,8
+    COMBOBOX        IDC_SUBSTYLE,33,22,119,83,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Move Low Resolution",IDC_MOVELORES,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,95,128,10
+    CONTROL         "Edit Low Resolution",IDC_EDITLORES,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,110,79,10
+    CONTROL         "Wireframe",IDC_WIREFRAME,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,125,85,10
+    CONTROL         "Sharp Edges",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,201,57,10
+    CONTROL         "Cusp Vertices",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,215,59,10
+    CONTROL         "Show Control Edges",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,140,80,10
+    CONTROL         "Show Control Vertices",IDC_CHECK4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,157,85,10
+    LTEXT           "Edit",IDC_STATIC,15,188,13,8
+    LTEXT           "View",IDC_STATIC,14,85,16,8
+    CONTROL         "Push to limit",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,74,53,10
+    CONTROL         "Show Plane",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,169,54,10
 END
 
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
@@ -185,15 +184,13 @@ BEGIN
     BEGIN
         BLOCK "040904B0"
         BEGIN
-            VALUE "CompanyName", "\0"
-            VALUE "FileDescription", "Sub MFC Application\0"
-            VALUE "FileVersion", "1, 0, 0, 1\0"
-            VALUE "InternalName", "Sub\0"
-            VALUE "LegalCopyright", "Copyright (C) 1999\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "Sub.EXE\0"
-            VALUE "ProductName", "Sub Application\0"
-            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "FileDescription", "Sub MFC Application"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "Sub"
+            VALUE "LegalCopyright", "Copyright (C) 1999"
+            VALUE "OriginalFilename", "Sub.EXE"
+            VALUE "ProductName", "Sub Application"
+            VALUE "ProductVersion", "1, 0, 0, 1"
         END
     END
     BLOCK "VarFileInfo"
@@ -202,8 +199,6 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -211,7 +206,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ABOUTBOX, DIALOG
     BEGIN
@@ -224,9 +219,9 @@ BEGIN
     IDD_CONTROL, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 179
+        RIGHTMARGIN, 180
         TOPMARGIN, 7
-        BOTTOMMARGIN, 216
+        BOTTOMMARGIN, 256
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -247,6 +242,10 @@ BEGIN
     IDC_SUBSTYLE, 0x403, 23, 0
 0x6441, 0x4820, 0x636f, 0x2820, 0x6e69, 0x6574, 0x7072, 0x6c6f, 0x7461, 
 0x6e69, 0x2967, "\000" 
+    IDC_SUBSTYLE, 0x403, 8, 0
+0x6f4c, 0x706f, 0x6e69, 0x0067, 
+    IDC_SUBSTYLE, 0x403, 10, 0
+0x7542, 0x7474, 0x7265, 0x6c66, 0x0079, 
     0
 END
 
@@ -256,18 +255,18 @@ END
 // String Table
 //
 
-STRINGTABLE PRELOAD DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDR_MAINFRAME           "Sub\n\nSub\n\n\nSub.Document\nSub Document"
 END
 
-STRINGTABLE PRELOAD DISCARDABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_APP_TITLE       "Sub"
     AFX_IDS_IDLEMESSAGE     "Ready"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_INDICATOR_EXT        "EXT"
     ID_INDICATOR_CAPS       "CAP"
@@ -277,7 +276,7 @@ BEGIN
     ID_INDICATOR_REC        "REC"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_NEW             "Create a new document\nNew"
     ID_FILE_OPEN            "Open an existing document\nOpen"
@@ -286,13 +285,13 @@ BEGIN
     ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_FILE_MRU_FILE1       "Open this document"
     ID_FILE_MRU_FILE2       "Open this document"
@@ -312,18 +311,18 @@ BEGIN
     ID_FILE_MRU_FILE16      "Open this document"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
     ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_CLEAR           "Erase the selection\nErase"
     ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
@@ -338,7 +337,7 @@ BEGIN
     ID_EDIT_REDO            "Redo the previously undone action\nRedo"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCSIZE          "Change the window size"
     AFX_IDS_SCMOVE          "Change the window position"
@@ -349,13 +348,13 @@ BEGIN
     AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     AFX_IDS_SCRESTORE       "Restore the window to normal size"
     AFX_IDS_SCTASKLIST      "Activate Task List"
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

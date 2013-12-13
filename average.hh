@@ -47,4 +47,12 @@ public:
 	static void average(Vertex *v);
 };
 
+class AvgButterfly : public Average
+{
+public:
+	AvgButterfly() {}
+	void operator()(Cell*);
+	static void average(Vertex *v);
+};
+
 #endif
